@@ -44,6 +44,7 @@ void initProcess(void *parameter) {
     logKernelMessage("[SYSTEM] Filesystem initialized");
     loadConfig(); 
     setTheme(std::to_string(getSavedTheme()));
+    setWallpaper(std::to_string(getSavedWallpaper()));
 
     printLine("[SYSTEM] MiniOS Ready");
     logKernelMessage("[SYSTEM] MiniOS Ready");

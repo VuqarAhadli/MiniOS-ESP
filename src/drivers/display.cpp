@@ -1,6 +1,7 @@
 #include "display.h"
 #include "theme.h"
 #include "config.h"
+#include "wallpaper.h"
 #include <Adafruit_GFX.h>
 #include <string>
 #if defined(DEVICE_RP2350) && !defined(__FREERTOS)
@@ -33,31 +34,6 @@ int bufferCount = 0;
 int scrollOffset = 0;
 std::string lineBuffer[SCROLL_BUFFER_SIZE];
 
-void drawWallpaper() {
-    tft.fillRect(0, 0, 80, 80, 0xE987);
-    // rect 1 copy 1
-    tft.fillRect(0, 80, 80, 80, 0x61B0);
-    // rect 1 copy 2
-    tft.fillRect(0, 160, 80, 80, 0x2E0F);
-    // rect 1 copy 3
-    tft.fillRect(80, 0, 80, 80, 0xE521);
-    // rect 1 copy 4
-    tft.fillRect(80, 80, 80, 80, 0x1AF6);
-    // rect 1 copy 5
-    tft.fillRect(80, 160, 80, 80, 0x63F1);
-    // rect 1 copy 6
-    tft.fillRect(160, 0, 80, 80, 0xFAA4);
-    // rect 1 copy 7
-    tft.fillRect(160, 80, 80, 80, 0xCEE7);
-    // rect 1 copy 8
-    tft.fillRect(160, 160, 80, 80, 0x651D);
-    // rect 1 copy 9
-    tft.fillRect(240, 0, 80, 80, 0x6225);
-    // rect 1 copy 10
-    tft.fillRect(240, 80, 80, 80, 0x1B9B);
-    // rect 1 copy 11
-    tft.fillRect(240, 160, 80, 80, 0xC0E5);
-}
 
 void renderScreen(){
     if (bufferMutex != NULL) {
@@ -65,8 +41,9 @@ void renderScreen(){
     }
     
     Theme current = getCurrentTheme();
+    
     // tft.fillScreen(current.bg);
-    drawWallpaper();
+    currentWallpaper.drawWallpaper();
     tft.setTextColor(current.fg, current.bg);
 
     int total = bufferCount;
@@ -222,7 +199,7 @@ void initDisplay() {
 void applyTheme() {
     Theme current = getCurrentTheme();
     // tft.fillScreen(current.bg);
-    drawWallpaper();
+    currentWallpaper.drawWallpaper();
     tft.setTextColor(current.fg);
     tft.setCursor(5, 0);
     currentCursorY = 0;
@@ -235,7 +212,7 @@ void clearScreen() {
     
     Theme current = getCurrentTheme();
     // tft.fillScreen(current.bg);
-    drawWallpaper();
+    currentWallpaper.drawWallpaper();
     tft.setCursor(5, 0);
     currentCursorY = 0;
     scrollOffset = 0;
@@ -251,7 +228,7 @@ void clearScreen() {
 void newPage() {
     Theme current = getCurrentTheme();
     // tft.fillScreen(current.bg);
-    drawWallpaper();
+    currentWallpaper.drawWallpaper();
     tft.setCursor(5, 0);
     currentCursorY = 0;
     tft.setTextColor(current.fg, current.bg);

@@ -16,6 +16,7 @@ const char* OS_VERSION = "MiniOS-ESP v2.1.3";
 
 static std::string deviceName = "Mini";
 static int savedTheme = 0;
+static int savedWallpaper = 0;
 #if defined(DEVICE_RP2350)
 static std::string storedSSID = "";
 static std::string storedPASS = "";
@@ -30,6 +31,8 @@ static void setConfigKey(const std::string& key, const std::string& value) {
         deviceName = value;
     } else if (key == "theme") {
         savedTheme = std::stoi(value);
+    } else if (key == "wallpaper") {
+        savedWallpaper = std::stoi(value);
     } else if (key == "SSID") {
         storedSSID = value;
     } else if (key == "PASS") {
@@ -40,6 +43,7 @@ static void setConfigKey(const std::string& key, const std::string& value) {
 static std::string getConfigKey(const std::string& key) {
     if (key == "deviceName") return deviceName;
     if (key == "theme") return std::to_string(savedTheme);
+    if (key == "wallpaper") return std::to_string(savedWallpaper);
     if (key == "SSID") return storedSSID;
     if (key == "PASS") return storedPASS;
     return "";
@@ -118,10 +122,21 @@ void loadConfig() {
         }
     }
 
+    std::string wallpaperStr = getConfigKey("wallpaper");
+    if (!wallpaperStr.empty()) {
+        try {
+            savedWallpaper = std::stoi(wallpaperStr);
+        } catch (...) {
+            savedWallpaper = 0;
+        }
+    }
+
     printLine("[CONFIG] Loaded: name=" + deviceName +
-              " theme=" + std::to_string(savedTheme));
+              " theme=" + std::to_string(savedTheme) +
+              " wallpaper=" + std::to_string(savedWallpaper));
     logKernelMessage("[CONFIG] Loaded: name=" + deviceName +
-                             " theme=" + std::to_string(savedTheme));
+                             " theme=" + std::to_string(savedTheme) +
+                             " wallpaper=" + std::to_string(savedWallpaper));
 #else
     printLine("[CONFIG] RP2350 config support not available. Using defaults.");
     logKernelMessage("[CONFIG] RP2350 config support not available. Using defaults.");
@@ -132,6 +147,7 @@ void saveConfig() {
 #if !defined(DEVICE_RP2350)
     setConfigKey("deviceName", deviceName);
     setConfigKey("theme", std::to_string(savedTheme));
+    setConfigKey("wallpaper", std::to_string(savedWallpaper));
     printLine("[CONFIG] Saved.");
     logKernelMessage("[CONFIG] Saved.");
 #else
@@ -251,6 +267,15 @@ int getSavedTheme() {
 void saveSavedTheme(int index) {
     savedTheme = index;
     setConfigKey("theme", std::to_string(savedTheme));
+}
+
+int getSavedWallpaper() {
+    return savedWallpaper;
+}
+
+void saveSavedWallpaper(int index) {
+    savedWallpaper = index;
+    setConfigKey("wallpaper", std::to_string(savedWallpaper));
 }
 
 void setWifiConfig(const std::string& SSID, const std::string& PASS){

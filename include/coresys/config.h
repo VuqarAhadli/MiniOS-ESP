@@ -57,8 +57,15 @@ void saveConfig();
 std::string getDeviceName();
 void setDeviceName();
 
-int  getSavedTheme();          
+int getSavedTheme();          
 void saveSavedTheme(int index);
+
+int getSavedTheme();          
+void saveSavedTheme(int index);
+
+int getSavedWallpaper();          
+void saveSavedWallpaper(int index);
+
 
 void setWifiConfig(const std::string& SSID, const std::string& PASS);
 std::string getWifiSSID();

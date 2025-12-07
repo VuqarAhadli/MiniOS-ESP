@@ -361,6 +361,17 @@ void runCommand(const std::string& cmd_in) {
         }
         setTheme(args.arg1);
     }
+    else if (baseCmd == "wallpapers") {
+        listWallpaper();
+    }
+    else if (baseCmd == "wallpaper") {
+        if (args.arg1.length() == 0) {
+            printLine("Usage: wallpaper <number>");
+            listWallpaper();
+            return;
+        }
+        setWallpaper(args.arg1);
+    }
     // else if (baseCmd == "pug") {
     //     displayPug();
     // }

@@ -18,6 +18,7 @@
 #include "pingpong.h"
 #include "d20.h"
 #include "coin.h"
+#include "wallpaper.h"
 #include "tools/calc.h"
 #include "tools/fetch.h"
 #include "tools/ping.h"
