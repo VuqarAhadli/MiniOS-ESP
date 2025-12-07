@@ -64,7 +64,7 @@ A lightweight command-line operating system for ESP32 with ST7789 display suppor
 ## Themes
 
 Available themes:
-- `matrix` (0) - Green on black
+- `matrix` (0) - Green on black **Default**
 - `cyan` (1) - Cyan on black
 - `classic` (2) - White on black
 - `blue` (3) - Yellow on blue
