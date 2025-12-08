@@ -34,7 +34,7 @@ A lightweight command-line operating system for ESP32 with ST7789 display suppor
 
 2. **Configure WiFi credentials**
    ```bash
-   cp include/config.h.example include/config.h
+   cp include/config.h
    ```
    Edit `include/config.h` and add your WiFi SSID and password.
 
