@@ -75,23 +75,24 @@ A lightweight command-line operating system for ESP32 with ST7789 display suppor
 ## Project Structure
 
 MiniOS-ESP/
-├── src/
-│   ├── main.cpp          # Main program loop
-│   ├── commands.cpp      # Command implementations
-│   ├── display.cpp       # display functions
-│   ├── filesystem.cpp    # SPIFFS file operations
-│   ├── network.cpp       # WiFi and HTTP functionality
-│   └── theme.cpp         # Theme management
-├── include/              # All header files
-│   ├── commands.h
-│   ├── config.h          # WiFi credentials and general config
-│   ├── display.h
-│   ├── filesystem.h
-│   ├── network.h
-│   └── theme.h
-├── platformio.ini        # Build/upload configuration
-├── README.md
-└── .gitignore
+├── src/ # Source files
+│ ├── main.cpp # Main program loop
+│ ├── commands.cpp # Command implementations
+│ ├── display.cpp # TFT display functions
+│ ├── filesystem.cpp # SPIFFS file operations
+│ ├── network.cpp # WiFi and HTTP functionality
+│ └── theme.cpp # Theme management
+├── include/ # Header files
+│ ├── commands.h
+│ ├── config.h # WiFi credentials and general config
+│ ├── display.h
+│ ├── filesystem.h
+│ ├── network.h
+│ └── theme.h
+├── platformio.ini # Build/upload configuration
+├── README.md # Project documentation
+└── .gitignore # Ignored files
+
 ## Dependencies
 
 This project uses the following open-source libraries:  
