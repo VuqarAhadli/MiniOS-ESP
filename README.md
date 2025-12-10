@@ -64,6 +64,7 @@ A lightweight command-line operating system for ESP32 with ST7789 display suppor
 | `calc <expression>` | Calculate expression | `calc 15 + 27 * 2` |
 | `themes` | List available themes | `themes` |
 | `theme <name\|number>` | Set display theme | `theme matrix` or `theme 0` |
+| `pug` | Display pug photo | `pug` |
 
 ## Themes
 
