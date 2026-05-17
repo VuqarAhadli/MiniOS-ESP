@@ -359,9 +359,9 @@ void runCommand(const std::string& cmd_in) {
         }
         setTheme(args.arg1);
     }
-    else if (baseCmd == "pug") {
-        displayPug();
-    }
+    // else if (baseCmd == "pug") {
+    //     displayPug();
+    // }
     else if (baseCmd == "screensaver" || baseCmd == "ss") {
         if (args.arg1.length() == 0) {
             printLine("Usage: screensaver <mode>");
@@ -488,7 +488,12 @@ void runCommand(const std::string& cmd_in) {
     {
         showSettings();
     }
-    
+
+    else if (baseCmd == "oslogo" || baseCmd == "logo")
+    {
+        drawScreen();
+    }
+
     
     else {
         printLine("Unknown command: " + baseCmd);

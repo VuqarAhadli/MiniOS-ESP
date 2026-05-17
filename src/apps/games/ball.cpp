@@ -52,9 +52,9 @@
 #include <cmath>
 #include <vector>
 
-const float GRAVITY      = 0.05f;
-const float FLOOR_DAMP   = 0.85f; /// Vertical energy loss
-const float WALL_DAMP    = 0.90f; /// Horizontal energy loss
+const float GRAVITY = 0.05f;
+const float FLOOR_DAMP = 0.85f;  
+const float WALL_DAMP = 0.90f; 
 
 struct Ball {
     float x, y;
@@ -79,8 +79,8 @@ void initialiseBall(int ballRadius, bool trail, int numBalls) {
         float angle = 2.0f * M_PI * ((float)std::rand() / RAND_MAX);
         float speed = 1.5f + (std::rand() / (float)RAND_MAX) * 3.5f;
         Ball b;
-        b.x      = 160;
-        b.y      = 115;
+        b.x = 160;
+        b.y = 115;
         b.speedX = speed * cosf(angle);
         b.speedY = speed * sinf(angle);
         b.colour = std::rand() % 65536;

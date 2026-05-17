@@ -32,8 +32,12 @@ void scrollUp(int lines = 3);
 void scrollDown(int lines = 3);
 void scrollToBottom();
 void scrollToTop();
+
 void screensaver(int mode);
+
 void showLogo();
+
+void drawScreen();
 uint8_t sin8(int angle);
 
 #define SCROLL_BUFFER_SIZE 100
