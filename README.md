@@ -1,6 +1,7 @@
 # MiniOS-ESP Documentation
 
 [![membrowse](https://membrowse.com/badge.svg)](https://membrowse.com/public/VuqarAhadli/MiniOS-ESP)
+[![oosmetrics](https://api.oosmetrics.com/api/v1/badge/achievement/177528b4-df60-4614-a709-e61168eb36f2.svg)](https://oosmetrics.com/repo/VuqarAhadli/MiniOS-ESP)
 ![PlatformIO](https://img.shields.io/badge/PlatformIO-supported-brightgreen?logo=platformio)
 ![Arduino](https://img.shields.io/badge/Arduino-supported-success?logo=arduino)
 ![C++](https://img.shields.io/badge/language-C%2B%2B-blue?logo=c%2B%2B)
