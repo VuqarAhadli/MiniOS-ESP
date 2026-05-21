@@ -6,7 +6,9 @@ void showHelp() {
     printLine("");
     printLine("  help file     - File commands");
     printLine("  help system   - System commands");
+#if !defined(DEVICE_RP2350)
     printLine("  help network  - Network commands");
+#endif
     printLine("  help time     - Time commands");
     printLine("  help display  - Display commands");
     printLine("  help os       - OS management");
@@ -40,6 +42,7 @@ void showHelpSystem() {
 }
 
 void showHelpNetwork() {
+#if !defined(DEVICE_RP2350)
     printLine("Network Commands:");
     printLine("  wifi                - Connect to WiFi");
     printLine("  disconnect          - Disconnect WiFi");
@@ -49,6 +52,9 @@ void showHelpNetwork() {
     printLine("  nslookup <host>     - DNS lookup");
     printLine("  curl <url>          - Fetch URL");
     printLine("  curl -v <url>       - Verbose mode");
+#else
+    printLine("Network commands are not available on this device.");
+#endif
 }
 
 void showHelpUtils() {

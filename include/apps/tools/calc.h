@@ -1,7 +1,11 @@
 #ifndef CALC_H
 #define CALC_H
 
-#define E  2.71828182845904523536
+#include <cstddef>
+
+namespace calc_consts {
+	static constexpr double CALC_E = 2.71828182845904523536;
+}
 
 #include <string> 
 

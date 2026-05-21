@@ -24,8 +24,6 @@
 #include "tools/utils.h"
 #include "tools/sysinfo.h"
 #include "tools/settings.h"
-#include <esp_system.h>
-#include <WiFi.h>
 #include <math.h>
 #include <string>
 #include <sstream>

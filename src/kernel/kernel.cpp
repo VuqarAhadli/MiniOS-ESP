@@ -1,11 +1,14 @@
 #include "kernel.h"
 #include "display.h"
-#include "kernel.h"
-#include "display.h"  
 #include <Arduino.h>
+#if defined(DEVICE_RP2350) && !defined(__FREERTOS)
+#define __FREERTOS 1
+#endif
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#if !defined(DEVICE_RP2350)
 #include <esp_system.h>
+#endif
 #include <vector>
 #include <string>
 static Process processTable[MAX_PROCESSES];
@@ -210,11 +213,21 @@ uint32_t getSystemUptime() {
 }
 
 uint32_t getFreeMem() {
+#if !defined(DEVICE_RP2350)
     return heap_caps_get_free_size(MALLOC_CAP_8BIT);
+#else
+    // return (uint32_t)xPortGetFreeHeapSize();
+    return 0;
+#endif
 }
 
 uint32_t getTotalMem() {
+#if !defined(DEVICE_RP2350)
     return heap_caps_get_total_size(MALLOC_CAP_8BIT);
+#else
+    // return (uint32_t)configTOTAL_HEAP_SIZE;
+    return 0;
+#endif
 }
 
 float getCPUUsage() {

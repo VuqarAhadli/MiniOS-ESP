@@ -2,7 +2,18 @@
 #include "coin.h"
 #include <cstdlib>
 #include <time.h>
+#if !defined(DEVICE_RP2350)
 #include <esp_random.h>
+#endif
+
+static uint32_t getRandom32() {
+#if !defined(DEVICE_RP2350)
+    return esp_random();
+#else
+    return ((uint32_t)std::rand() << 17) ^ ((uint32_t)std::rand() << 2) ^ (uint32_t)(std::rand() & 1);
+#endif
+}
+
 static const int CX = X_MAX / 2;
 static const int CY = Y_MAX / 2 - 10;
 static const int R  = 80;  
@@ -96,13 +107,12 @@ void coinGame() {
             }
 
             if (doFlip) {
-                CoinState state = (CoinState)((esp_random() >> 31) & 1);
+                    CoinState state = (CoinState)((getRandom32() >> 31) & 1);
 
 
                 for (int f = 0; f < 3; f++) {
                     eraseCoin();
-                    CoinState fake = (CoinState)((esp_random() >> 31) & 1);
-                    drawCoin(fake);
+                    CoinState fake = (CoinState)((getRandom32() >> 31) & 1);
                     vTaskDelay(65 / portTICK_PERIOD_MS);
                 }
 

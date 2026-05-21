@@ -7,7 +7,6 @@
 #include <cmath>
 #include <string>
 
-#define E 2.71828182845904523536
 
 namespace Operation{
     /*
@@ -73,8 +72,8 @@ bool evaluateWithX(const std::string& expression, float xValue, float& result) {
     }
     pos = expr.find("e");
     while (pos != std::string::npos) {
-        expr.replace(pos, 1, std::to_string(E));
-        pos = expr.find("e", pos + std::to_string(E).length());
+        expr.replace(pos, 1, std::to_string(calc_consts::CALC_E));
+        pos = expr.find("e", pos + std::to_string(calc_consts::CALC_E).length());
     }
     
     if (expr.length() == 0) {

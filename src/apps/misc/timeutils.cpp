@@ -7,9 +7,14 @@
 #include "config.h"
 #include "pug.h"
 #include "timeutils.h"
+#if !defined(DEVICE_RP2350)
 #include <WiFi.h>
 #include <HTTPClient.h>
+#endif
 #include <time.h>
+#if defined(DEVICE_RP2350) && !defined(__FREERTOS)
+#define __FREERTOS 1
+#endif
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <string>
@@ -18,6 +23,7 @@
 Alarm systemAlarm = {false, 0, 0, ""};
 
 void syncTime() {
+#if !defined(DEVICE_RP2350)
     if (WiFi.status() != WL_CONNECTED) {
         printLine("WiFi not connected.");
         printLine("Use 'wifi' first.");
@@ -42,6 +48,9 @@ void syncTime() {
         printLine("");
         printLine("Time sync failed.");
     }
+#else
+    printLine("Time sync is not supported on this device.");
+#endif
     
     vTaskDelay(pdMS_TO_TICKS(100));
     while (Serial.available() > 0) {

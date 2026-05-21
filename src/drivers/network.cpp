@@ -1,3 +1,5 @@
+#if !defined(DEVICE_RP2350)
+
 #include "network.h"
 #include "display.h"
 #include "timeutils.h"
@@ -50,7 +52,6 @@ void connectWiFi(bool useConfig) {
                         tft.setCursor(currentCursorX, currentCursorY);
                         tft.print(" ");
                         tft.setCursor(currentCursorX, currentCursorY);
-
                     }
                 } else if (c >= 32 && c <= 126) {
                     WIFI_SSID += c;
@@ -85,7 +86,6 @@ void connectWiFi(bool useConfig) {
                         tft.setCursor(currentCursorX, currentCursorY);
                         tft.print(" ");
                         tft.setCursor(currentCursorX, currentCursorY);
-
                     }
                 } else if (c >= 32 && c <= 126) {
                     WIFI_PASS += c;
@@ -221,3 +221,45 @@ std::string getLocalIP() {
 int getSignalStrength() {
     return WiFi.RSSI();
 }
+
+#else
+
+#include "network.h"
+#include "display.h"
+#include "kernel.h"
+#include <string>
+
+std::string WIFI_SSID = "";
+std::string WIFI_PASS = "";
+NetworkStatus networkStatus = NET_DISCONNECTED;
+extern bool inputLocked;
+
+void connectWiFi(bool useConfig) {
+    printLine("WiFi is not supported on this device.");
+}
+
+void disconnectWiFi() {
+    printLine("WiFi is not supported on this device.");
+}
+
+void scanWiFi() {
+    printLine("WiFi scan is not supported on this device.");
+}
+
+void showNetworkInfo() {
+    printLine("WiFi is not supported on this device.");
+}
+
+bool isConnected() {
+    return false;
+}
+
+std::string getLocalIP() {
+    return "";
+}
+
+int getSignalStrength() {
+    return 0;
+}
+
+#endif

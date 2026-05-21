@@ -4,6 +4,8 @@
 #include "theme.h"
 #include "network.h"
 #include "kernel.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 #include <string>
 #include <cstring>
 
@@ -262,7 +264,7 @@ static void handleTimeSync() {
     tft.print("Syncing from NTP server...");
     tft.setTextColor(getCurrentTheme().fg);
 
-    
+#if !defined(DEVICE_RP2350)
     configTime(0, 0, "pool.ntp.org");
     
     int attempts = 0;
@@ -284,6 +286,13 @@ static void handleTimeSync() {
         tft.setCursor(10, 50);
         tft.print("Time sync failed");
     }
+#else
+    tft.fillRect(10, 50, 200, 20, getCurrentTheme().bg);
+    tft.setCursor(10, 50);
+    tft.setTextColor(ST77XX_RED);
+    tft.print("Time sync unsupported");
+    tft.setTextColor(getCurrentTheme().fg);
+#endif
     
     tft.setCursor(10, 80);
     tft.print("Press ENTER to go back");

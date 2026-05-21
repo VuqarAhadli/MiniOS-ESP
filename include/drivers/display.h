@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include <Adafruit_ST7789.h>
 #include <string>
+#if defined(DEVICE_RP2350) && !defined(__FREERTOS)
+#define __FREERTOS 1
+#endif
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
 

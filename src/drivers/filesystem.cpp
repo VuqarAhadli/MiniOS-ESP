@@ -1,9 +1,13 @@
 #include "filesystem.h"
 #include "display.h"
 #include "kernel.h"
+#if !defined(DEVICE_RP2350)
 #include <FS.h>
 #include <SPIFFS.h>
+#endif
 #include <string>
+
+#if !defined(DEVICE_RP2350)
 
 bool initFilesystem() {
     if (!SPIFFS.begin(true)) {
@@ -214,3 +218,49 @@ bool copyFile(const std::string& src_in, const std::string& dst_in) {
     printLine("Copied.");
     return true;
 }
+#else
+
+bool initFilesystem() {
+    printLine("[FS] Filesystem not supported on this device.");
+    logKernelMessage("[FS] Filesystem not supported on this device.");
+    return false;
+}
+
+void writeFile(const std::string& name, const std::string& data) {
+    printLine("[FS] writeFile unsupported on this device.");
+    logKernelMessage("[FS] writeFile unsupported on this device.");
+}
+
+void appendFile(const std::string& name, const std::string& data) {
+    printLine("[FS] appendFile unsupported on this device.");
+    logKernelMessage("[FS] appendFile unsupported on this device.");
+}
+
+void readFile(const std::string& name) {
+    printLine("[FS] readFile unsupported on this device.");
+    logKernelMessage("[FS] readFile unsupported on this device.");
+}
+
+void deleteFile(const std::string& name) {
+    printLine("[FS] deleteFile unsupported on this device.");
+    logKernelMessage("[FS] deleteFile unsupported on this device.");
+}
+
+void listFiles() {
+    printLine("[FS] listFiles unsupported on this device.");
+    logKernelMessage("[FS] listFiles unsupported on this device.");
+}
+
+bool renameFile(const std::string& oldName, const std::string& newName) {
+    printLine("[FS] renameFile unsupported on this device.");
+    logKernelMessage("[FS] renameFile unsupported on this device.");
+    return false;
+}
+
+bool copyFile(const std::string& src, const std::string& dst) {
+    printLine("[FS] copyFile unsupported on this device.");
+    logKernelMessage("[FS] copyFile unsupported on this device.");
+    return false;
+}
+
+#endif

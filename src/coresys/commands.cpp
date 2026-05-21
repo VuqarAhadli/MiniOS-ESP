@@ -154,6 +154,7 @@ void runCommand(const std::string& cmd_in) {
         }
         copyFile(args.arg1, args.arg2);
     }
+#if !defined(DEVICE_RP2350)
     else if (baseCmd == "wifi") {
         if (args.arg1 == "disconnect") {
             disconnectWiFi();
@@ -213,6 +214,7 @@ void runCommand(const std::string& cmd_in) {
         }
         dnsLookup(args.arg1);
     }
+#endif
     else if (baseCmd == "mem" || baseCmd == "memory") {
         showMem();
     }
@@ -365,7 +367,7 @@ void runCommand(const std::string& cmd_in) {
     else if (baseCmd == "screensaver" || baseCmd == "ss") {
         if (args.arg1.length() == 0) {
             printLine("Usage: screensaver <mode>");
-            printLine("Available modes: 1-8");
+            printLine("Available modes: 1-9");
             return;
         }
         

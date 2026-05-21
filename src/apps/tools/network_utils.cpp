@@ -1,10 +1,13 @@
 #include "network_utils.h"
 #include "display.h"
 #include "kernel.h"
-#include <WiFi.h>
-#include <HTTPClient.h>
 #include <string>
 #include "network.h"
+
+#if !defined(DEVICE_RP2350)
+#include <WiFi.h>
+#include <HTTPClient.h>
+#endif
 
 std::string formatBytes(int bytes) {
     if (bytes < 1024) return std::to_string(bytes) + " B";
@@ -32,6 +35,7 @@ void curlURLVerbose(const std::string& url) {
     curlWithOptions(opts);
 }
 
+#if !defined(DEVICE_RP2350)
 void curlWithOptions(CurlOptions opts) {
     if (!isConnected()) {
         printLine("curl: not connected to WiFi");
@@ -160,7 +164,13 @@ void curlWithOptions(CurlOptions opts) {
 
     http.end();
 }
+#else
+void curlWithOptions(CurlOptions) {
+    printLine("curl is not supported on this device.");
+}
+#endif
 
+#if !defined(DEVICE_RP2350)
 std::string httpGet(const std::string& url) {
     if (!isConnected()) return "";
     
@@ -193,6 +203,17 @@ int httpPost(const std::string& url, const std::string& data) {
     return code;
 }
 
+#else
+
+std::string httpGet(const std::string&) {
+    return "";
+}
+
+int httpPost(const std::string&, const std::string&) {
+    return -1;
+}
+
+#endif
 
 void dnsLookup(const std::string& hostname) {
     if (!isConnected()) {
@@ -202,6 +223,7 @@ void dnsLookup(const std::string& hostname) {
         return;
     }
     
+#if !defined(DEVICE_RP2350)
     printLine("Looking up: " + hostname);
     
     IPAddress ip;
@@ -210,6 +232,9 @@ void dnsLookup(const std::string& hostname) {
     } else {
         printLine("DNS lookup failed");
     }
+#else
+    printLine("dns lookup is not supported on this device.");
+#endif
 }
 
 std::string getStatusText(int code) {

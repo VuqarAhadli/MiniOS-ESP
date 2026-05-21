@@ -22,12 +22,22 @@
     #define TFT_RST 4 
 
     #define DEVICE_NAME "ESP32-S3"
+
+#elif defined(DEVICE_RP2350)
+    #define TFT_CS   17
+    #define TFT_RST  20
+    #define TFT_DC   26
+    #define TFT_MOSI 19
+    #define TFT_SCLK 18
+
+    #define DEVICE_NAME "RP-2350"
 #else
     // Default fallback (ESP32 Standard)
     #define TFT_CS 5
     #define TFT_DC 2
     #define TFT_RST 4
     #define DEVICE_NAME "ESP32"
+
 #endif
 
 // #define MAX_Y    230

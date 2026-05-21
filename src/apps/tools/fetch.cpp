@@ -1,8 +1,6 @@
 #include "sysinfo.h"
 #include "display.h"
 #include "config.h"
-#include <esp_system.h>
-#include <WiFi.h>
 
 void fetch() {
     showLogo();

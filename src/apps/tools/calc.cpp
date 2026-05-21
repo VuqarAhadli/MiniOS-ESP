@@ -96,8 +96,8 @@ void calc(const std::string& expression_in) {
     }
     pos = expression.find("e");
     while (pos != std::string::npos) {
-        expression.replace(pos, 1, std::to_string(E));
-        pos = expression.find("e", pos + std::to_string(E).length());
+        expression.replace(pos, 1, std::to_string(calc_consts::CALC_E));
+        pos = expression.find("e", pos + std::to_string(calc_consts::CALC_E).length());
     }
     
     if (expression.length() == 0) {

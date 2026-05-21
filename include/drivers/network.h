@@ -2,11 +2,12 @@
 #define NETWORK_H
 
 #include <Arduino.h>
-#include <WiFi.h>
-#include <HTTPClient.h>
 #include <string>
 #include "tools/network_utils.h"
 
+#if !defined(DEVICE_RP2350)
+#include <WiFi.h>
+#endif
 
 extern std::string WIFI_SSID;
 extern std::string WIFI_PASS;

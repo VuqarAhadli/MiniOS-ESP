@@ -3,11 +3,25 @@
 #include "config.h"
 #include <Adafruit_GFX.h>
 #include <string>
+#if defined(DEVICE_RP2350) && !defined(__FREERTOS)
+#define __FREERTOS 1
+#endif
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
 #include <Fonts/FreeSans9pt7b.h>
 
-Adafruit_ST7789 tft = Adafruit_ST7789(&SPI, TFT_CS, TFT_DC, TFT_RST);
+
+
+#if defined(DEVICE_RP2350)
+
+    Adafruit_ST7789 tft = Adafruit_ST7789(&SPI, TFT_CS, TFT_DC, TFT_RST);
+    
+#else 
+
+    Adafruit_ST7789 tft = Adafruit_ST7789(&SPI, TFT_CS, TFT_DC, TFT_RST);
+
+#endif
+
 int16_t currentCursorY = 0;
 int16_t currentCursorX = 5;
 bool screenCleared = false;
@@ -152,8 +166,16 @@ uint8_t sin8(int angle) {
 
 void initDisplay() {
     delay(150);
+#if defined(DEVICE_RP2350)
+    SPI.setTX(TFT_MOSI);
+    //SPI.setRX(28);  // Dummy RX pin (GPIO28 - not used)
+    SPI.setSCK(TFT_SCLK);
+    // SPI.setCS(TFT_CS);
+    SPI.begin();
+#else
     SPI.begin(TFT_SCLK, -1, TFT_MOSI, TFT_CS);
-    SPI.setFrequency(40000000); 
+    SPI.setFrequency(40000000);
+#endif
     tft.init(240, 320);
     tft.setRotation(1);
     tft.setTextWrap(true);

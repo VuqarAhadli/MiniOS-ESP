@@ -1,12 +1,16 @@
 #include "network.h"
 #include "display.h"
 #include "kernel.h"
+#include <string>
+
+#if !defined(DEVICE_RP2350)
 #include <ESP32Ping.h>
 #include <esp_system.h>
 #include <WiFi.h>
-
+#endif
 
 void pingHost(const std::string& host,int retries) {
+#if !defined(DEVICE_RP2350)
     if (!isConnected()) {
         printLine("ping: not connected to WiFi");
         logKernelMessage("[NETWORK] ping: not connected to WiFi");
@@ -62,4 +66,7 @@ void pingHost(const std::string& host,int retries) {
                  std::to_string(avgTime) + "/" + 
                  std::to_string(maxTime) + " ms");
     }
+#else
+    printLine("ping is not supported on this device.");
+#endif
 }

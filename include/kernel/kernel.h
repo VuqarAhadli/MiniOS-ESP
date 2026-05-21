@@ -2,6 +2,9 @@
 #define KERNEL_H
 
 #include <Arduino.h>
+#if defined(DEVICE_RP2350) && !defined(__FREERTOS)
+#define __FREERTOS 1
+#endif
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <vector>

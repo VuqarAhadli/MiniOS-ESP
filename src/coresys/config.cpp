@@ -3,7 +3,9 @@
 #include "kernel.h"
 #include "theme.h"
 #include <Arduino.h>
+#if !defined(DEVICE_RP2350)
 #include <SPIFFS.h>
+#endif
 #include <string>
 
 
@@ -14,10 +16,35 @@ const char* OS_VERSION = "MiniOS-ESP v2.1.3";
 
 static std::string deviceName = "Mini";
 static int savedTheme = 0;
+#if defined(DEVICE_RP2350)
+static std::string storedSSID = "";
+static std::string storedPASS = "";
+#endif
 
 
 #define CONFIG_FILE "/config.cfg"
 
+#if defined(DEVICE_RP2350)
+static void setConfigKey(const std::string& key, const std::string& value) {
+    if (key == "deviceName") {
+        deviceName = value;
+    } else if (key == "theme") {
+        savedTheme = std::stoi(value);
+    } else if (key == "SSID") {
+        storedSSID = value;
+    } else if (key == "PASS") {
+        storedPASS = value;
+    }
+}
+
+static std::string getConfigKey(const std::string& key) {
+    if (key == "deviceName") return deviceName;
+    if (key == "theme") return std::to_string(savedTheme);
+    if (key == "SSID") return storedSSID;
+    if (key == "PASS") return storedPASS;
+    return "";
+}
+#else
 static void setConfigKey(const std::string& key, const std::string& value) {
     std::string content = "";
     File f = SPIFFS.open(CONFIG_FILE, FILE_READ);
@@ -66,9 +93,11 @@ static std::string getConfigKey(const std::string& key) {
     f.close();
     return "";
 }
+#endif
 
 
 void loadConfig() {
+#if !defined(DEVICE_RP2350)
     if (!SPIFFS.exists(CONFIG_FILE)) {
         printLine("[CONFIG] No config file, using defaults.");
         logKernelMessage("[CONFIG] No config file, using defaults.");
@@ -93,13 +122,22 @@ void loadConfig() {
               " theme=" + std::to_string(savedTheme));
     logKernelMessage("[CONFIG] Loaded: name=" + deviceName +
                              " theme=" + std::to_string(savedTheme));
+#else
+    printLine("[CONFIG] RP2350 config support not available. Using defaults.");
+    logKernelMessage("[CONFIG] RP2350 config support not available. Using defaults.");
+#endif
 }
 
 void saveConfig() {
+#if !defined(DEVICE_RP2350)
     setConfigKey("deviceName", deviceName);
     setConfigKey("theme", std::to_string(savedTheme));
     printLine("[CONFIG] Saved.");
     logKernelMessage("[CONFIG] Saved.");
+#else
+    printLine("[CONFIG] Save disabled on this device.");
+    logKernelMessage("[CONFIG] Save disabled on this device.");
+#endif
 }
 
 
