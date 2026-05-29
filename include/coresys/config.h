@@ -24,9 +24,9 @@
     #define DEVICE_NAME "ESP32-S3"
 
 #elif defined(DEVICE_RP2350)
-    #define TFT_CS   17
-    #define TFT_RST  20
-    #define TFT_DC   26
+    #define TFT_CS 17
+    #define TFT_RST 20
+    #define TFT_DC 26
     #define TFT_MOSI 19
     #define TFT_SCLK 18
 
@@ -44,8 +44,8 @@
 
 // TIME
 extern const char* NTP_SERVER;
-extern const long  GMT_OFFSET;
-extern const int   DAYLIGHT_OFFSET;
+extern const long GMT_OFFSET;
+extern const int DAYLIGHT_OFFSET;
 
 // OS INFO
 extern const char* OS_VERSION;

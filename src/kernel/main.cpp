@@ -144,51 +144,49 @@ void serialInputProcess(void *parameter) {
                 xSemaphoreGive(bufferMutex);
             }
             
-            if(currentScroll == 0){
-                char c = Serial.read();
+            char c = Serial.read(); 
+            
 
-                if (c == '\n') {
+            if (c == '\n') {
+                if (currentScroll > 0) {
+                    scrollToBottom();
+                    continue;
+                }
 
-                    tft.setTextColor(getCurrentTheme().fg, getCurrentTheme().bg);
+                tft.setTextColor(getCurrentTheme().fg, getCurrentTheme().bg);
+                tft.print(" ");
+                tft.setCursor(currentCursorX, currentCursorY);
+
+                if (screenCleared) {
+                    currentCursorY = tft.getCursorY();
+                    screenCleared = false;
+                    tft.setCursor(5, currentCursorY);
+                    printPrompt(true);
+                    promptPrinted = true; 
+                }
+                if (input.length() > 0) {
+                    addToBuffer(">" + getDeviceName() + "@Mini:" + input);
+                    printLineNoBuffer("");
+                    runCommand(input);
+                    currentCursorY = tft.getCursorY();
+                    tft.setCursor(5, currentCursorY);
+                    printPrompt(true);
+                    promptPrinted = true;
+                    tft.setTextColor(getCurrentTheme().bg, getCurrentTheme().fg);
                     tft.print(" ");
                     tft.setCursor(currentCursorX, currentCursorY);
+                    tft.setTextColor(getCurrentTheme().fg, getCurrentTheme().bg);
+                }
 
-                    if (screenCleared) {
-                        // if (input.length() > 0) {
-                        //     print(input);
-                        // }
-                        // printLine("");
-                        currentCursorY = tft.getCursorY();
-                        screenCleared = false;
-                        tft.setCursor(5, currentCursorY);
-                        printPrompt(true);
-                        promptPrinted = true; 
-
-
-                    }
+                input = "";
+                overFlownLines = 0;
+                initY = currentCursorY;
+                promptPrinted = false; 
+            } 
+            // Other input only processed when at bottom
+            else if (currentScroll == 0) {
+                if (c == '\b' || c == 127) {
                     if (input.length() > 0) {
-                        
-                        addToBuffer(">" + getDeviceName() + "@Mini:" + input);
-                        printLineNoBuffer("");
-                        runCommand(input);
-                        currentCursorY = tft.getCursorY();
-                        tft.setCursor(5, currentCursorY);
-                        printPrompt(true);
-                        promptPrinted = true;
-                        tft.setTextColor(getCurrentTheme().bg, getCurrentTheme().fg);
-                        tft.print(" ");
-                        tft.setCursor(currentCursorX, currentCursorY);
-                        tft.setTextColor(getCurrentTheme().fg, getCurrentTheme().bg);
-
-                    }
-
-                    input = "";
-                    overFlownLines = 0;
-                    initY = currentCursorY;
-                    promptPrinted = false; 
-                } else if (c == '\b' || c == 127) {
-                    if (input.length() > 0) {
-
                         input.pop_back();
                         Serial.write('\b');
                         Serial.write(' ');
@@ -197,11 +195,8 @@ void serialInputProcess(void *parameter) {
                         CursorPosition previousChar = inputPositions.back();
                         inputPositions.pop_back();
 
-
                         currentCursorX = previousChar.x;
                         currentCursorY = previousChar.y;
-
-
 
                         tft.setCursor(currentCursorX, currentCursorY);
                         tft.print("  ");
@@ -211,7 +206,6 @@ void serialInputProcess(void *parameter) {
                         tft.setTextColor(getCurrentTheme().fg, getCurrentTheme().bg);
                         tft.setCursor(currentCursorX, currentCursorY);
                     }
-
                 } else {
                     input += c;
                     inputPositions.push_back({currentCursorX, currentCursorY});
@@ -227,7 +221,6 @@ void serialInputProcess(void *parameter) {
                     tft.print(" ");
                     tft.setCursor(currentCursorX, currentCursorY);
                     tft.setTextColor(getCurrentTheme().fg, getCurrentTheme().bg);
-                    
                 }
             }
             
