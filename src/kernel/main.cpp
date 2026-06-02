@@ -22,12 +22,13 @@ bool screenJustUnlocked = false;
 bool pressedEnd = false;
 bool screenLocked = false;
 bool inputLocked = false;
-
+bool initEnded = false;
 
 
 std::vector<CursorPosition> inputPositions;
 
 void initProcess(void *parameter) {
+
     printLine("MiniOS - FreeRTOS Kernel");
     
     printLine("[SYSTEM] Display initialized");
@@ -51,6 +52,7 @@ void initProcess(void *parameter) {
     printLine("Type 'help' for commands");
     printLine("");
     
+    initEnded = true;
     vTaskDelay(100 / portTICK_PERIOD_MS);
     vTaskDelete(NULL);
 }
@@ -60,6 +62,7 @@ int lastScrollOffset = 0;
 
 void serialInputProcess(void *parameter) {
     const TickType_t delay = 10 / portTICK_PERIOD_MS;
+    while(!initEnded) vTaskDelay(delay);
     bool promptPrinted = false;
     vTaskDelay(500 / portTICK_PERIOD_MS);
     tft.setCursor(5, tft.getCursorY());

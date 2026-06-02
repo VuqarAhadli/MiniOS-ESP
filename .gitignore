@@ -27,7 +27,7 @@ Thumbs.db
 *.o
 *.a
 *.so
-*.bin
+
 *.elf
 *.hex
 *.log
