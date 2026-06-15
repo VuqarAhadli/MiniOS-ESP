@@ -21,6 +21,7 @@ void initProcess(void *parameter) {
     loadConfig(); 
     setTheme(std::to_string(getSavedTheme()));
     setWallpaper(std::to_string(getSavedWallpaper()));
+    setGMTOffset(std::to_string(GMT_OFFSET));
 
     printLine("[SYSTEM] MiniOS Ready");
     logKernelMessage("[SYSTEM] MiniOS Ready");
@@ -31,3 +32,4 @@ void initProcess(void *parameter) {
     vTaskDelay(100 / portTICK_PERIOD_MS);
     vTaskDelete(NULL);
 }
+

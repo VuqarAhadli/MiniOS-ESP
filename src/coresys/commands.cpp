@@ -505,6 +505,14 @@ void runCommand(const std::string& cmd_in) {
     else if (baseCmd == "oslogo" || baseCmd == "logo")
     {
         drawScreen();
+    } 
+    else if (baseCmd == "gmt" || baseCmd == "timezone") {
+        if (args.arg1.length() == 0) {
+            printLine("Current GMT offset: " + std::to_string(getGMTOffset())); 
+            printLine("To change the GMT offset: gmt <offset>");
+            return;
+        }
+        setGMTOffset(args.arg1);
     }
 
     

@@ -31,7 +31,7 @@ void syncTime() {
     }
     
     printLine("Syncing time...");
-    configTime(GMT_OFFSET, DAYLIGHT_OFFSET, NTP_SERVER);
+    configTime(getGMTOffset() * 3600, DAYLIGHT_OFFSET, NTP_SERVER);
     
     int attempts = 0;
     while (time(nullptr) < 100000 && attempts < 20) {
@@ -286,3 +286,16 @@ void checkAlarm() {
         systemAlarm.active = false;
     }
 }
+
+void alarmCheckProcess(void *parameter) {
+    const TickType_t delay = 1000 / portTICK_PERIOD_MS;
+    
+    while (1) {
+        if (!screenLocked) {
+            checkAlarm();
+        }
+        vTaskDelay(delay);
+    }
+}
+
+

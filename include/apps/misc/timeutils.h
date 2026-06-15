@@ -19,7 +19,7 @@ struct Alarm {
     int minute;
     std::string message;
 };
-
+void alarmCheckProcess(void *parameter);
 extern Alarm systemAlarm;
 
 #endif

@@ -44,7 +44,7 @@
 
 // TIME
 extern const char* NTP_SERVER;
-extern const long GMT_OFFSET;
+extern long GMT_OFFSET;
 extern const int DAYLIGHT_OFFSET;
 
 // OS INFO
@@ -66,6 +66,8 @@ void saveSavedTheme(int index);
 int getSavedWallpaper();          
 void saveSavedWallpaper(int index);
 
+void setGMTOffset(const std::string& offsetString);
+long getGMTOffset();
 
 void setWifiConfig(const std::string& SSID, const std::string& PASS);
 std::string getWifiSSID();

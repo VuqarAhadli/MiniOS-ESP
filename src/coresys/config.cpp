@@ -10,7 +10,7 @@
 
 
 const char* NTP_SERVER = "pool.ntp.org";
-const long GMT_OFFSET = 4 * 3600;   
+long GMT_OFFSET = 0; 
 const int DAYLIGHT_OFFSET = 0;
 const char* OS_VERSION = "MiniOS-ESP v2.1.4";
 
@@ -37,6 +37,12 @@ static void setConfigKey(const std::string& key, const std::string& value) {
         storedSSID = value;
     } else if (key == "PASS") {
         storedPASS = value;
+    } else if (key == "GMT_OFFSET") {
+        try {
+            GMT_OFFSET = std::stol(value);
+        } catch (...) {
+            GMT_OFFSET = 0;
+        }
     }
 }
 
@@ -46,6 +52,7 @@ static std::string getConfigKey(const std::string& key) {
     if (key == "wallpaper") return std::to_string(savedWallpaper);
     if (key == "SSID") return storedSSID;
     if (key == "PASS") return storedPASS;
+    if (key == "GMT_OFFSET") return std::to_string(GMT_OFFSET);
     return "";
 }
 #else
@@ -131,12 +138,24 @@ void loadConfig() {
         }
     }
 
+    std::string gmtStr = getConfigKey("GMT_OFFSET");
+    if (!gmtStr.empty()) {
+        try {
+            GMT_OFFSET = std::stol(gmtStr);
+        } catch (...) {
+            GMT_OFFSET = 0;
+        }
+    }
+    
+
     printLine("[CONFIG] Loaded: name=" + deviceName +
               " theme=" + std::to_string(savedTheme) +
-              " wallpaper=" + std::to_string(savedWallpaper));
+              " wallpaper=" + std::to_string(savedWallpaper) +
+              " GMT_OFFSET=" + std::to_string(GMT_OFFSET));
     logKernelMessage("[CONFIG] Loaded: name=" + deviceName +
                              " theme=" + std::to_string(savedTheme) +
-                             " wallpaper=" + std::to_string(savedWallpaper));
+                             " wallpaper=" + std::to_string(savedWallpaper) +
+                             " GMT_OFFSET=" + std::to_string(GMT_OFFSET));
 #else
     printLine("[CONFIG] RP2350 config support not available. Using defaults.");
     logKernelMessage("[CONFIG] RP2350 config support not available. Using defaults.");
@@ -148,6 +167,7 @@ void saveConfig() {
     setConfigKey("deviceName", deviceName);
     setConfigKey("theme", std::to_string(savedTheme));
     setConfigKey("wallpaper", std::to_string(savedWallpaper));
+    setConfigKey("GMT_OFFSET", std::to_string(GMT_OFFSET));
     printLine("[CONFIG] Saved.");
     logKernelMessage("[CONFIG] Saved.");
 #else
@@ -285,6 +305,20 @@ void setWifiConfig(const std::string& SSID, const std::string& PASS){
     logKernelMessage("[NETWORK] config updated.");
 }
 
+void setGMTOffset(const std::string& offsetString) {
+    try {
+        GMT_OFFSET = std::stol(offsetString);
+    } catch (...) {
+        GMT_OFFSET = 0;
+    }
+    setConfigKey("GMT_OFFSET", std::to_string(GMT_OFFSET));
+    printLine("[TIME] GMT offset updated to " + std::to_string(GMT_OFFSET) + ".");
+    logKernelMessage("[TIME] GMT offset updated to " + std::to_string(GMT_OFFSET) + ".");
+}
+
+long getGMTOffset() {
+    return GMT_OFFSET;
+}
 
 std::string getWifiSSID() {
     return getConfigKey("SSID");

@@ -56,5 +56,6 @@ void printSystemStats();
 
 void signalProcess(int pid, int signal);
 void waitForProcess(int pid);
+void watchdogProcess(void *parameter);
 
 #endif

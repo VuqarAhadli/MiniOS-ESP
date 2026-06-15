@@ -318,3 +318,11 @@ void kernelScheduler(void *parameter) {
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }
+
+void watchdogProcess(void *parameter) {
+    const TickType_t delay = 5000 / portTICK_PERIOD_MS;
+    
+    while (1) {
+        vTaskDelay(delay);
+    }
+}

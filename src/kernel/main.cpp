@@ -14,24 +14,8 @@
 #include "init.h"
 
 
-void alarmCheckProcess(void *parameter) {
-    const TickType_t delay = 1000 / portTICK_PERIOD_MS;
-    
-    while (1) {
-        if (!screenLocked) {
-            checkAlarm();
-        }
-        vTaskDelay(delay);
-    }
-}
 
-void watchdogProcess(void *parameter) {
-    const TickType_t delay = 5000 / portTICK_PERIOD_MS;
-    
-    while (1) {
-        vTaskDelay(delay);
-    }
-}
+
 
 void setup() {
     Serial.begin(115200);
