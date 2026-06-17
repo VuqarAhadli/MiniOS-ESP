@@ -12,6 +12,7 @@ void initProcess(void *parameter) {
     if (!initFilesystem()) {
         printLine("[ERROR] Filesystem failed");
         logKernelMessage("[ERROR] Filesystem failed");
+        initEnded = true;
         vTaskDelete(NULL);
         return;
     }
