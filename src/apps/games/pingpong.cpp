@@ -14,7 +14,8 @@ void fillBorders(void) {
     tft.fillRect(5, 0, 315, 5, 0xDC5B);
     tft.fillRect(5, 225, 315, 5, 0xDC5B);
     tft.fillRect(315, 5, 5, 220, 0xF602);
-    tft.drawEllipse(160, 113, 42, 42, 0xE0C4);
+
+    tft.drawCircle(160, 113, 42, 0xE0C4);
     tft.drawLine(159, 5, 159, 70, 0xE0C4);
     tft.drawLine(159, 155, 159, 224, 0xE0C4);
 }
@@ -23,7 +24,7 @@ void fillBorders(void) {
 void drawLoseMenu(int score) {
     tft.fillScreen(0x0);
 
-    tft.fillEllipse(6, 80, 35, 35, 0xFFFF);
+    tft.fillCircle(6, 80, 35, 0xFFFF);
     tft.drawLine(34, 52, 167, 36, 0xE987);
     tft.drawLine(43, 66, 181, 59, 0xF685);
     tft.drawLine(46, 79, 196, 80, 0xE521);
@@ -63,7 +64,7 @@ void drawMenu() {
     tft.setCursor(84, 33);
     tft.println("Ping Pong");
     draw_polygon_4();
-    tft.fillEllipse(199, 86, 35, 35, 0xFFFF);
+    tft.fillCircle(199, 86, 35, 0xFFFF);
     tft.setTextColor(0xFF8D);
     tft.setCursor(91, 187);
     tft.println("W for up");
